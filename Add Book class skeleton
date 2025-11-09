@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    string author;
+    string isbn;
+    bool available;
+    string dateAdd;
+
+public:
+    Book() : available(true) {}
+
+    void setBookDetails(const string& t, const string& a,
+                        const string& i, bool avail, const string& d);
+
+    void displayBookDetails() const;
+
+    bool borrowBook();
+    void returnBook();
+
+    const string& getISBN() const { return isbn; }
+    bool isAvailable() const { return available; }
+
+    static void sortBookData(Book arr[], int n);
+};
+
+int main() {
+    cout << "Project setup OK.\n";
+    return 0;
+}
