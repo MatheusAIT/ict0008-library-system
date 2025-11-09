@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    string author;
+    string isbn;
+    bool available;
+    string dateAdd;
+
+public:
+    Book() : available(true) {}
+
+    void setBookDetails(const string& t, const string& a,
+                        const string& i, bool avail, const string& d) {
+        title = t; author = a; isbn = i; available = avail; dateAdd = d;
+    }
+
+    void displayBookDetails() const {
+        cout << "Title: " << title
+             << " | Author: " << author
+             << " | ISBN: " << isbn
+             << " | Available: " << (available ? "Yes" : "No")
+             << " | DateAdd: " << dateAdd << '\n';
+    }
+
+    bool borrowBook();   // not implemented yet
+    void returnBook();   // not implemented yet
+
+    const string& getISBN() const { return isbn; }
+    bool isAvailable() const { return available; }
+
+    static void sortBookData(Book arr[], int n); // not implemented yet
+};
+
+int main() {
+    Book b;
+    b.setBookDetails("Clean Code", "Robert Martin", "9780132350884", true, "2023-02-10");
+    b.displayBookDetails();
+    return 0;
+}
