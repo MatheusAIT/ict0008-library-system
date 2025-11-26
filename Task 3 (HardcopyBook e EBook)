@@ -1,0 +1,148 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    string author;
+    string isbn;
+    bool available;
+    string dateAdd;
+
+public:
+    Book() : available(true) {}
+
+    void setBookDetails(const string& t, const string& a,
+                        const string& i, bool avail, const string& d) {
+        title = t;
+        author = a;
+        isbn = i;
+        available = avail;
+        dateAdd = d;
+    }
+
+    void displayBookDetails() const {
+        cout << "Title: " << title
+             << " | Author: " << author
+             << " | ISBN: " << isbn
+             << " | Available: " << (available ? "Yes" : "No")
+             << " | DateAdd: " << dateAdd << '\n';
+    }
+
+    bool borrowBook() {
+        if (available) {
+            available = false;
+            return true;
+        }
+        return false;
+    }
+
+    void returnBook() {
+        available = true;
+    }
+
+    const string& getISBN() const { return isbn; }
+    bool isAvailable() const { return available; }
+
+    static void sortBookData(Book arr[], int n) {
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = 0; j < n - i - 1; ++j) {
+                if (arr[j].isbn > arr[j + 1].isbn) {
+                    Book tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                }
+            }
+        }
+    }
+};
+
+// -------------------------
+//   PHASE 2 - TASK 3
+// -------------------------
+
+class HardcopyBook : public Book {
+private:
+    string shelfNumber;
+public:
+    void setShelfNumber(const string& shelf) { shelfNumber = shelf; }
+    string getShelfNumber() const { return shelfNumber; }
+};
+
+class EBook : public Book {
+private:
+    string licenseEndDate;
+public:
+    void setLicenseEndDate(const string& date) { licenseEndDate = date; }
+    string getLicenseEndDate() const { return licenseEndDate; }
+};
+
+int main() {
+    const int N = 5;
+    Book books[N];
+
+    // Phase 1 - Base program
+    books[0].setBookDetails("Clean Code", "Robert Martin", "9780132350884", true, "2023-02-10");
+    books[1].setBookDetails("The C++ Programming Language", "Bjarne Stroustrup", "9780321563842", true, "2022-11-05");
+    books[2].setBookDetails("Effective Modern C++", "Scott Meyers", "9781491903995", true, "2024-04-01");
+    books[3].setBookDetails("Algorithms", "S. Dasgupta", "9780073523408", true, "2021-08-18");
+    books[4].setBookDetails("Design Patterns", "GoF", "9780201633610", true, "2020-06-30");
+
+    Book::sortBookData(books, N);
+
+    cout << "Library System - Borrow by ISBN\n";
+    cout << "Enter 0 to exit.\n\n";
+
+    while (true) {
+        cout << "Current books:\n";
+        for (int i = 0; i < N; ++i) {
+            books[i].displayBookDetails();
+        }
+
+        cout << "\nEnter an ISBN to borrow (or 0 to exit): ";
+        string input;
+        cin >> input;
+
+        if (input == "0") {
+            cout << "Goodbye.\n";
+            break;
+        }
+
+        bool found = false;
+        for (int i = 0; i < N; ++i) {
+            if (books[i].getISBN() == input) {
+                found = true;
+
+                if (books[i].borrowBook()) {
+                    cout << "Borrow success.\n\n";
+                } else {
+                    cout << "Error: Book not available.\n\n";
+                }
+                break;
+            }
+        }
+
+        if (!found) {
+            cout << "Error: ISBN not found.\n\n";
+        }
+    }
+
+    // -------------------------
+    //   PHASE 2 DEMO (Task 3)
+    // -------------------------
+
+    cout << "\n--- Phase 2 Demo ---\n";
+
+    HardcopyBook h;
+    h.setBookDetails("Paper Sample", "Author X", "1111111111111", true, "2025-01-01");
+    h.setShelfNumber("A-12");
+    cout << "HardcopyBook created. Shelf: " << h.getShelfNumber() << "\n";
+
+    EBook e;
+    e.setBookDetails("EBook Sample", "Author Y", "2222222222222", true, "2025-02-01");
+    e.setLicenseEndDate("2026-02-01");
+    cout << "EBook created. License ends: " << e.getLicenseEndDate() << "\n";
+
+    return 0;
+}
