@@ -1,0 +1,108 @@
+#include <iostream>
+#include "Book.h"
+
+int main() {
+    using std::cout;
+    using std::endl;
+
+    // ==========================
+    // 1. Correct book information
+    // ==========================
+    cout << "=== Correct Book Initialisation ===" << endl;
+
+    Book b1;
+    Book b2;
+    Book b3;
+
+    b1.setBookDetails("Clean Code",
+                      "Robert Martin",
+                      "9780132350884",
+                      true,
+                      "2023-02-10");
+
+    b2.setBookDetails("The C++ Programming Language",
+                      "Bjarne Stroustrup",
+                      "9780321563842",
+                      true,
+                      "2022-11-05");
+
+    b3.setBookDetails("Effective Modern C++",
+                      "Scott Meyers",
+                      "9781491903995",
+                      true,
+                      "2024-04-01");
+
+    b1.displayBookDetails(); cout << endl;
+    b2.displayBookDetails(); cout << endl;
+    b3.displayBookDetails(); cout << endl;
+
+    // ==========================
+    // 2. Incorrect book information
+    // ==========================
+    cout << endl;
+    cout << "=== Incorrect Book Initialisation (wrong information) ===" << endl;
+
+    Book wrong;
+    wrong.setBookDetails("",
+                         "Unknown Author",
+                         "INVALID ISBN",
+                         true,
+                         "2023-13-40"); // invalid date on purpose
+
+    wrong.displayBookDetails(); cout << endl;
+
+    // ==========================
+    // 3. Sorting tests
+    // ==========================
+
+    cout << endl;
+    cout << "Ascending array BEFORE sort" << endl;
+
+    Book asc[3] = {
+        Book("Clean Code", "Robert Martin", "9780132350884", true, "2023-02-10"),
+        Book("Effective Modern C++", "Scott Meyers", "9781491903995", true, "2024-04-01"),
+        Book("Algorithms", "S. Dasgupta", "9780073523408", true, "2021-08-18")
+    };
+
+    for (int i = 0; i < 3; ++i) {
+        asc[i].displayBookDetails();
+        cout << endl;
+    }
+
+    Book::sortAscending(asc, 3);
+
+    cout << endl;
+    cout << "Ascending array AFTER sort" << endl;
+    for (int i = 0; i < 3; ++i) {
+        asc[i].displayBookDetails();
+        cout << endl;
+    }
+
+    cout << endl;
+    cout << "Descending array BEFORE sort" << endl;
+
+    Book desc[3] = {
+        Book("Clean Code", "Robert Martin", "9780132350884", true, "2023-02-10"),
+        Book("Effective Modern C++", "Scott Meyers", "9781491903995", true, "2024-04-01"),
+        Book("Algorithms", "S. Dasgupta", "9780073523408", true, "2021-08-18")
+    };
+
+    for (int i = 0; i < 3; ++i) {
+        desc[i].displayBookDetails();
+        cout << endl;
+    }
+
+    Book::sortDescending(desc, 3);
+
+    cout << endl;
+    cout << "Descending array AFTER sort" << endl;
+    for (int i = 0; i < 3; ++i) {
+        desc[i].displayBookDetails();
+        cout << endl;
+    }
+
+    cout << endl;
+    cout << "=== Test Finished ===" << endl;
+
+    return 0;
+}
